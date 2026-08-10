@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello World")
+	fmt.Println("Hello World.")
 	fmt.Println(greetings.Welcome())
 	fmt.Println(quote.Go())
 }
