@@ -1,4 +1,4 @@
-module example/myhello
+module github.com/geison-lira/go-projects/myhello
 
 go 1.26.5
 

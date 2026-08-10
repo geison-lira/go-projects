@@ -1,9 +1,9 @@
 package main
 
 import (
-	"example/myhello/greetings"
 	"fmt"
 
+	"github.com/geison-lira/go-projects/myhello/greetings"
 	"rsc.io/quote"
 )
 
