@@ -13,6 +13,12 @@ func CheckError(err error) {
 	}
 }
 
+func PrintError(err error) {
+	if err != nil {
+		fmt.Println("Error:", err)
+	}
+}
+
 func main() {
 	ServerAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:10001")
 	CheckError(err)
@@ -31,9 +37,7 @@ func main() {
 		i++
 		buf := []byte(msg)
 		_, err := Conn.Write(buf)
-		if err != nil {
-			fmt.Println("Error:", msg, err)
-		}
+		PrintError(err)
 		time.Sleep(time.Second * 1)
 	}
 }
