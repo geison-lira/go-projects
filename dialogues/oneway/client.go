@@ -24,10 +24,10 @@ func main() {
 	i := 0
 	for {
 		msg := strconv.Itoa(i)
-		i++
 		buf := []byte(msg)
 		_, err := Conn.Write(buf)
 		PrintError(err)
 		time.Sleep(time.Second * 1)
+		i++
 	}
 }
