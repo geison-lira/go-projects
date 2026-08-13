@@ -7,12 +7,6 @@ import (
 	"time"
 )
 
-func CheckError(err error) {
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-}
-
 func PrintError(err error) {
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -21,13 +15,13 @@ func PrintError(err error) {
 
 func main() {
 	ServerAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:10001")
-	CheckError(err)
+	PrintError(err)
 
 	LocalAddr, err := net.ResolveUDPAddr("udp", "127.0.0.1:0")
-	CheckError(err)
+	PrintError(err)
 
 	Conn, err := net.DialUDP("udp", LocalAddr, ServerAddr)
-	CheckError(err)
+	PrintError(err)
 
 	defer Conn.Close()
 
