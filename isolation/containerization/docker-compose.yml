@@ -1,0 +1,23 @@
+services:
+  first_process:
+    container_name: process_1
+    build:
+      context: .
+    command: ['process_1:10001', 'process_2:10002', 'process_3:10003']
+    stdin_open: true
+    tty: true
+  second_process:
+    container_name: process_2
+    build:
+      context: .
+    command: ['process_2:10002', 'process_1:10001', 'process_3:10003']
+    stdin_open: true
+    tty: true
+  third_process:
+    container_name: process_3
+    build:
+      context: .
+    command: ['process_3:10003', 'process_1:10001', 'process_2:10002']
+    stdin_open: true
+    tty: true
+    
