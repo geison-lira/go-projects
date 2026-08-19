@@ -1,34 +1,40 @@
-# GoProjects
+# go-projects
 
-A repository for learning Go and storing personal projects.
+A collection of Go projects focused on system-level programming, distributed architectures, and interprocess communication.
 
-## MyHello
+## Repository Overview
 
-### Project Overview
+This repository currently contains the following projects:
 
-A simple "Hello World" project that demonstrates basic package management. It uses an internal package called `greetings`, which contains a single file (`welcome.go`) responsible for displaying a welcome message.
+1. **myhello**: A foundational "Hello World" project demonstrating Go module initialization and basic package management.
+2. **dialogues**: An interprocess communication (IPC) project simulating concurrent client-server message exchange over the UDP protocol.
+3. **isolation**: _(Coming soon)_
 
-The project also imports an external module, `rsc.io/quote`, to display the famous Go proverb:
+Each project contains its own dedicated `README.md` detailing its specific behavior, internal architecture, and execution instructions.
 
-> "Don't communicate by sharing memory, share memory by communicating."
+## Repository Structure
 
-### Structure
-
-The project uses the following architecture:
+The repository is organized into isolated project directories:
 
 ```text
-myhello/
-├── greetings/
-│   └── welcome.go
-├── go.mod
-├── go.sum
-└── main.go
+go-projects/
+├── dialogues/
+├── isolation/
+└── myhello/
 ```
 
-### How to Run
+> Note: For detailed internal tree structures, refer to the README within each specific project folder.
 
-To execute the project, navigate to the `myhello` directory and run:
+## Environment Setup
+
+To run these projects, you need to have Go installed on your machine.
+
+1. Navigate to the [Official Go Website](https://go.dev/dl/) and follow the installation instructions for your operating system.
+
+2. Clone this repository to your local machine:
 
 ```bash
-go run main.go
+git clone https://github.com/geison-lira/go-projects.git
 ```
+
+3. Navigate into the specific project directory you wish to run.
