@@ -51,11 +51,11 @@ func doServerJob() {
 	}
 }
 
-func doClientJob(i int, j int) {
+func doClientJob(i int) {
 	msg := Message{200, "Communication test"}
 	jsonMsg, err := json.Marshal(msg)
 	PrintError(err)
-	_, err = ClientConn[j].Write(jsonMsg)
+	_, err = ClientConn[i].Write(jsonMsg)
 	PrintError(err)
 }
 
@@ -90,8 +90,8 @@ func main() {
 		case text, valid := <-ch:
 			if valid {
 				fmt.Printf("Sent %s from keyboard\n", text)
-				for j := 0; j < nServers; j++ {
-					go doClientJob(0, j)
+				for i := 0; i < nServers; i++ {
+					go doClientJob(i)
 				}
 			} else {
 				fmt.Println("Closed channel")
