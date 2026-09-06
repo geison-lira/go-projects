@@ -11,13 +11,16 @@ import (
 )
 
 type Message struct {
-	Code int
-	Text string
+	Code     int
+	Text     string
+	MsgClock int
 }
 
 var nServers int
 var ClientConn []*net.UDPConn
 var ServerConn *net.UDPConn
+var clock int = 0
+var clockRequest int
 
 func CheckError(err error) {
 	if err != nil {
@@ -53,7 +56,7 @@ func doServerJob() {
 }
 
 func doClientJob(i int) {
-	msg := Message{200, "Communication test"}
+	msg := Message{200, "Communication test", clock}
 	jsonMsg, err := json.Marshal(msg)
 	PrintError(err)
 	_, err = ClientConn[i].Write(jsonMsg)
