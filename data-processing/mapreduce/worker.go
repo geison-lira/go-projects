@@ -1,10 +1,12 @@
 package mapreduce
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"net"
 	"net/rpc"
+	"os"
 	"time"
 )
 
@@ -118,5 +120,61 @@ func (worker *RemoteWorker) callRemoteWorker(proc string, args any, reply any) e
 	} else if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (worker *Worker) RunMap(args *RunArgs, _ *struct{}) error {
+	var (
+		err       error
+		buffer    []byte
+		mapResult []KeyValue
+	)
+	if worker.shouldFail(false) {
+		mapResult = make([]KeyValue, 0)
+		storeLocal(worker.task, args.Id, mapResult)
+		time.Sleep(time.Duration(100) * time.Millisecond)
+		panic("Induced failure.")
+	}
+	log.Printf("Running map id: %v, path: %v\n", args.Id, args.FilePath)
+	buffer, err = os.ReadFile(args.FilePath)
+	checkError(err)
+	mapResult = worker.task.Map(buffer)
+	storeLocal(worker.task, args.Id, mapResult)
+	return nil
+}
+
+func (worker *Worker) RunReduce(args *RunArgs, _ *struct{}) error {
+	log.Printf("Running reduce id: %v, path: %v\n", args.Id, args.FilePath)
+	var (
+		err          error
+		reduceResult []KeyValue
+		file         *os.File
+		fileEncoder  *json.Encoder
+	)
+	if worker.shouldFail(false) {
+		file, err = os.Create(resultFileName(args.Id))
+		checkError(err)
+		file.Sync()
+		file.Close()
+		time.Sleep(time.Duration(100) * time.Millisecond)
+		panic("Induced failure.")
+	}
+	data := loadLocal(args.Id)
+	reduceResult = worker.task.Reduce(data)
+	file, err = os.Create(resultFileName(args.Id))
+	checkError(err)
+	fileEncoder = json.NewEncoder(file)
+	for _, value := range reduceResult {
+		fileEncoder.Encode(value)
+	}
+	file.Close()
+	return nil
+}
+
+func (worker *Worker) Done(_ *struct{}, _ *struct{}) error {
+	log.Println("Done.")
+	defer func() {
+		close(worker.done)
+	}()
 	return nil
 }
