@@ -113,7 +113,6 @@ func (master *Master) runOperation(remoteWorker *RemoteWorker, operation *Operat
 	}
 }
 
-// RPC - Register
 func (master *Master) Register(args *RegisterArgs, reply *RegisterReply) error {
 	var (
 		newWorker *RemoteWorker
