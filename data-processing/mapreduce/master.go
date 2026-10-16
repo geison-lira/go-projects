@@ -112,3 +112,19 @@ func (master *Master) runOperation(remoteWorker *RemoteWorker, operation *Operat
 		master.idleWorkerChan <- remoteWorker
 	}
 }
+
+// RPC - Register
+func (master *Master) Register(args *RegisterArgs, reply *RegisterReply) error {
+	var (
+		newWorker *RemoteWorker
+	)
+	log.Printf("Registering worker '%v' with hostname '%v'", master.totalWorkers, args.WorkerHostname)
+	master.workersMu.Lock()
+	newWorker = &RemoteWorker{master.totalWorkers, args.WorkerHostname, WORKER_IDLE}
+	master.workers[newWorker.id] = newWorker
+	master.totalWorkers++
+	master.workersMu.Unlock()
+	master.idleWorkerChan <- newWorker
+	*reply = RegisterReply{newWorker.id, master.task.NumReduceJobs}
+	return nil
+}
