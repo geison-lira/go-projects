@@ -22,3 +22,17 @@ type (
 	ReduceFunc  func([]KeyValue) []KeyValue
 	ShuffleFunc func(*Task, string) int
 )
+
+type RegisterArgs struct {
+	WorkerHostname string
+}
+
+type RegisterReply struct {
+	WorkerId   int
+	ReduceJobs int
+}
+
+type RunArgs struct {
+	Id       int
+	FilePath string
+}
