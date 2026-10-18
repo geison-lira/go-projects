@@ -97,7 +97,6 @@ func RunWorker(task *Task, hostname string, masterHostname string, numOperations
 		worker.taskCounter = 0
 		worker.numOperations = numOperations
 	}
-
 	rpcServer = rpc.NewServer()
 	rpcServer.Register(worker)
 	worker.rpcServer = rpcServer
